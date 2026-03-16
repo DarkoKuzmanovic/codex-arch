@@ -1,0 +1,13 @@
+# Build artifacts
+build/
+pkg/
+src/
+
+# Upstream macOS DMG
+Codex.dmg
+
+# Built Arch packages
+*.pkg.tar.zst
+
+# Node
+node_modules/

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Codex Desktop
+Comment=Unofficial Linux port of the Codex desktop app
+Exec=codex-desktop %U
+Icon=codex-desktop
+StartupWMClass=Codex
+Terminal=false
+Categories=Development;
+StartupNotify=true
+MimeType=x-scheme-handler/codex;

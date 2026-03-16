@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+app_root="/usr/lib/codex-desktop"
+entry_script="$app_root/electron-entry.cjs"
+electron_bin=${ELECTRON_BIN:-"$app_root/electron/electron"}
+
+# Source the shared environment helper.
+if [[ -f "$app_root/codex-env.sh" ]]; then
+  source "$app_root/codex-env.sh"
+else
+  script_dir=$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+  source "$script_dir/../scripts/codex-env.sh"
+fi
+
+if [[ ! -x "$electron_bin" && -x /usr/bin/electron40 ]]; then
+  electron_bin=/usr/bin/electron40
+fi
+
+if [[ ! -x "$electron_bin" ]]; then
+  echo "Electron launcher not found: $electron_bin" >&2
+  exit 1
+fi
+if [[ ! -f "$entry_script" ]]; then
+  echo "Electron entry script not found: $entry_script" >&2
+  exit 1
+fi
+
+codex_validate_electron "$electron_bin" 143 || {
+  echo "Install electron40 or set ELECTRON_BIN to an Electron 40 binary." >&2
+  exit 1
+}
+
+codex_setup_env "$app_root/app" "$app_root/bin"
+codex_exec "$electron_bin" "$entry_script" "$@"
