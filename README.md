@@ -2,6 +2,8 @@
 
 Unofficial Arch Linux packaging scaffold that turns the macOS `Codex.dmg` into a working Electron desktop app on Arch-based distros (EndeavourOS, Manjaro, etc.).
 
+![Codex running on Linux/Plasma](docs/screenshot.png)
+
 ## What it does
 
 - Extracts the Electron app from `Codex.dmg` via `app.asar`
