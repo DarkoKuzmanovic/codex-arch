@@ -24,6 +24,17 @@ if [[ ! -f "$dmg_path" ]]; then
   exit 1
 fi
 
+if [[ -n "${CODEX_DMG_SHA256:-}" ]]; then
+  actual_sha256=$(sha256sum "$dmg_path" | awk '{print $1}')
+  if [[ "$actual_sha256" != "$CODEX_DMG_SHA256" ]]; then
+    echo "DMG checksum mismatch" >&2
+    echo "  expected: $CODEX_DMG_SHA256" >&2
+    echo "  actual:   $actual_sha256" >&2
+    exit 1
+  fi
+  echo "DMG checksum verified"
+fi
+
 tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/codex-dmg-XXXXXX")
 cleanup() {
   rm -rf "$tmp_dir"
@@ -49,6 +60,10 @@ if [[ ! -f "$app_asar" ]]; then
   exit 1
 fi
 
+if [[ -z "$out_dir" || "$out_dir" != "$repo_root"/* ]]; then
+  echo "Refusing to clean unsafe path: ${out_dir:-<empty>}" >&2
+  exit 1
+fi
 rm -rf "$out_dir"
 mkdir -p "$out_dir/app" "$out_dir/raw" "$out_dir/macos" "$out_dir/icons" "$out_dir/metadata"
 

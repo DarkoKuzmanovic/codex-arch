@@ -67,6 +67,10 @@ fi
 
 package_spec="@openai/codex-linux-x64@npm:@openai/codex@${resolved_version}-linux-x64"
 
+if [[ -z "$out_dir" || "$out_dir" != "$repo_root"/* ]]; then
+  echo "Refusing to clean unsafe path: ${out_dir:-<empty>}" >&2
+  exit 1
+fi
 rm -rf "$out_dir"
 mkdir -p "$out_dir"
 

@@ -50,3 +50,10 @@ After a rebuild or reinstall, check:
 - The upstream DMG does not expose the matching Linux Codex CLI vendor version clearly.
 - The updater script reuses the staged Linux CLI version by default.
 - `scripts/rebuild-linux-natives.sh` still depends on npm downloads during rebuild.
+
+## Safety Hardening
+
+- `update-from-dmg.sh` validates the imported version string against `^[a-zA-Z0-9][a-zA-Z0-9._]*$` before writing `pkgver`.
+- `stage-linux-runtime.sh` fails hard if the Linux `codex` binary is missing (set `CODEX_CLI_PATH` or `CODEX_LINUX_BIN`).
+- `import-codex-dmg.sh` verifies the DMG checksum when `CODEX_DMG_SHA256` is set.
+- All scripts that run `rm -rf` refuse to delete paths that are empty or outside the repo root.

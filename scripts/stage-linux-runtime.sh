@@ -15,6 +15,10 @@ if [[ ! -d "$app_source" ]]; then
   exit 1
 fi
 
+if [[ -z "$runtime_dir" || "$runtime_dir" != "$repo_root"/* ]]; then
+  echo "Refusing to clean unsafe path: ${runtime_dir:-<empty>}" >&2
+  exit 1
+fi
 rm -rf "$runtime_dir"
 mkdir -p "$runtime_dir"
 
@@ -67,7 +71,9 @@ if [[ -n "$rg_source" ]]; then
   install -m 755 "$rg_source" "$runtime_dir/bin/rg"
 fi
 
-echo "Staged Linux runtime at $runtime_dir"
 if [[ ! -x "$runtime_dir/bin/codex" ]]; then
-  echo "No Linux codex binary staged. Use CODEX_CLI_PATH or CODEX_LINUX_BIN." >&2
+  echo "No Linux codex binary staged. Set CODEX_CLI_PATH or CODEX_LINUX_BIN." >&2
+  exit 1
 fi
+
+echo "Staged Linux runtime at $runtime_dir"

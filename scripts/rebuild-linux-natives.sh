@@ -49,6 +49,10 @@ echo "Electron: $electron_version"
 echo "better-sqlite3: $better_sqlite3_version"
 echo "node-pty: $node_pty_version"
 
+if [[ -z "$work_dir" || "$work_dir" != "$repo_root"/* ]]; then
+  echo "Refusing to clean unsafe path: ${work_dir:-<empty>}" >&2
+  exit 1
+fi
 rm -rf "$work_dir"
 mkdir -p "$work_dir"
 

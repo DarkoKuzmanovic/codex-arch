@@ -52,6 +52,11 @@ process.stdout.write(String(summary.version));
 NODE
 )
 
+if [[ ! "$app_version" =~ ^[a-zA-Z0-9][a-zA-Z0-9._]*$ ]]; then
+  echo "Imported version string is not a valid Arch pkgver: $app_version" >&2
+  exit 1
+fi
+
 node - "$repo_root/PKGBUILD" "$app_version" <<'NODE'
 const fs = require("fs");
 const pkgbuildPath = process.argv[2];

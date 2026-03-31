@@ -23,6 +23,11 @@ prepare() {
   bash "$startdir/scripts/import-codex-dmg.sh" "$srcdir/Codex.dmg" "$srcdir/imported"
   bash "$startdir/scripts/stage-linux-runtime.sh" "$srcdir/imported" "$srcdir/linux-runtime"
 
+  if [[ ! -x "$srcdir/linux-runtime/bin/codex" ]]; then
+    echo "Linux codex binary was not staged. Set CODEX_CLI_PATH or CODEX_LINUX_BIN." >&2
+    return 1
+  fi
+
   if [[ ! -d "$srcdir/linux-runtime/vendor" ]]; then
     echo "Linux Codex vendor payload was not staged. Populate build/codex-vendor first." >&2
     return 1

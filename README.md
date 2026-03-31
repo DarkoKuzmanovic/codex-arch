@@ -98,6 +98,7 @@ CODEX_CLI_VERSION=0.115.0 bash scripts/update-from-dmg.sh /path/to/new/Codex.dmg
 | `ELECTRON_BIN` | Override the Electron binary path |
 | `CODEX_OZONE_PLATFORM` | Set to `wayland` to use native Wayland instead of X11 |
 | `SMOKE_TEST` | Set to `1` to run a brief launch test during updates |
+| `CODEX_DMG_SHA256` | Expected SHA-256 hash of `Codex.dmg` — verified before import if set |
 | `RG_BIN` | Override the `ripgrep` binary staged into the runtime |
 
 ## Wayland / Plasma notes
